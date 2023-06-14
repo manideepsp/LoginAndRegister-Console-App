@@ -11,8 +11,8 @@ namespace DAL
     public class DataAccess
     {
         //Using List of strings to store in-memory
-        List<List<string>> userData = new List<List<string>>();
-        List<String> listData = new List<String>();
+        public static List<List<string>> userData = new List<List<string>>();
+        public static List<String> listData = new List<String>();
 
         /// <summary>
         /// Creates new User
