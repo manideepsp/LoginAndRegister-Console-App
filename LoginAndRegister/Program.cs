@@ -1,5 +1,6 @@
 ﻿using BLL;
 using BusinessObjects;
+using DAL;
 using System;
 
 namespace LoginAndRegister
@@ -17,120 +18,20 @@ namespace LoginAndRegister
 			//Initialising new objects of Business objects and Business Logic classes
 			BusinessObj obj = new BusinessObj();
 			BusinessLogic operation = new BusinessLogic();
+			DataAccess dataOperation = new DataAccess();
+			Menu call = new Menu();
 
 			int redirect;
 
             Console.WriteLine("Welcome to Landing page"
-                + "\nEnter: "
+                + "\n  Enter: "
                 + "\n* 1. To Login"
                 + "\n* 2. To Register As new user"
                 + "\n* 3. If you forgot you password"
                 + "\n* 0. To exit");
             redirect = Convert.ToInt32(Console.ReadLine());
 
-			//loop runs until user exits application
-			while (true)
-			{
-				if (redirect == 0) //To exit application
-				{
-					Console.WriteLine("***** Closing app *****");
-					break;
-				}
-
-				else if (redirect == 1) //Login page
-				{
-					Console.Write("\nWelcome to Login Page:" +
-								"\n\nEnter Username: ");
-					obj.Username = Console.ReadLine();
-
-					Console.Write("\nEnter Password: ");
-					obj.Password = Console.ReadLine();
-
-					string decision = operation.Login(obj);
-					if(decision == "changePassword")
-					{
-						Console.WriteLine("\nRedirecting you to Forgot password / Change Password page.\n");
-						redirect = 3;
-					}
-					else
-					{
-						Console.WriteLine("\n Press 1 to create new user"
-											+ "press any other key to try again");
-
-						ConsoleKeyInfo cki = Console.ReadKey();
-						if(cki.Key == ConsoleKey.D1)
-						{
-							redirect = 2;
-						}
-						else
-						{
-							redirect = 1;
-						}
-                    }
-				}
-				else if (redirect == 2) //Create new user
-				{
-					Console.Write("Welcome to New User, enter your details to create new account:" +
-							"\n\nEnter Username: ");
-					obj.Username = Console.ReadLine();
-
-					Console.Write("\nEnter First name: ");
-					obj.FirstName = Console.ReadLine();
-
-					Console.Write("\nEnter Last name: ");
-					obj.LastName = Console.ReadLine();
-
-					Console.Write("\nEnter email id: ");
-					obj.Email = Console.ReadLine();
-
-					Console.Write("\nEnter Mobile number: ");
-					obj.Mobile = Console.ReadLine();
-
-					Console.Write("\nEnter Password: ");
-					obj.Password = Console.ReadLine();
-
-					Console.Write("\nConfirm Password: ");
-					obj.ConfirmPassword = Console.ReadLine();
-
-					string decision = operation.CreateUser(obj);
-					if (decision == "success")
-					{
-						redirect = 1;
-					}
-					else
-					{
-						Console.WriteLine("\n * User already exist, redirecting to login page...");
-						redirect = 1;
-					}
-				}
-				else if (redirect == 3) //Forgot Password also for change password
-				{
-					Console.Write("\nWelcome to forgot password / Change password page:"
-						+ "\n\nEnter username: ");
-					obj.Username = Console.ReadLine();
-
-					Console.Write("\nEnter the new password: ");
-					obj.Password = Console.ReadLine();
-
-					Console.Write("\nConfirm Password: ");
-					obj.ConfirmPassword = Console.ReadLine();
-
-					string decision = operation.ForgotPassword(obj);
-
-					if (decision == "success")
-					{
-						Console.WriteLine("\nUser created successfully, redirecting to Login page.\n");
-						redirect = 1; 
-					}
-					else if (decision == "fail")
-					{
-						Console.WriteLine("\nUser doesnot exist, create new user: ");
-						redirect = 2;
-					}
-				}
-
-			}
-
+			call.MenuOperation(redirect, obj, operation, dataOperation);
 		}
 	}
 }
