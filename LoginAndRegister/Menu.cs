@@ -2,17 +2,20 @@
 using BusinessObjects;
 using DAL;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Schema;
 
 namespace LoginAndRegister
 {
     public class Menu
     {
-        public void MenuOperation(int redirect, BusinessObj obj, BusinessLogic operation, DataAccess dataOperation)
+
+        /// <summary>
+        /// Does operations described in menu
+        /// </summary>
+        /// <param name="redirect"></param>
+        /// <param name="obj"></param>
+        /// <param name="businessOperation"></param>
+        /// <param name="dataOperation"></param>
+        public void MenuOperation(int redirect, BusinessObj obj, BusinessLogic businessOperation, DataAccess dataOperation)
         {
             Validations val = new Validations();
 
@@ -37,7 +40,7 @@ namespace LoginAndRegister
                     Console.Write("\nEnter Password: ");
                     obj.Password = Console.ReadLine();
 
-                    string decision = operation.Login(obj);
+                    string decision = businessOperation.Login(obj);
                     if (decision == "changePassword")
                     {
                         Console.WriteLine("\nRedirecting you to Forgot password / Change Password page.\n");
@@ -46,7 +49,7 @@ namespace LoginAndRegister
                     else
                     {
                         Console.WriteLine("\n Press 1 to create new user"
-                                            + "press any other key to try again");
+                                            + "\npress any other key to try again");
 
                         ConsoleKeyInfo cki = Console.ReadKey();
                         if (cki.Key == ConsoleKey.D1)
@@ -72,7 +75,7 @@ namespace LoginAndRegister
                     {
                         Console.WriteLine("Username already exists");
                         obj.Username = Console.ReadLine();
-                        flag = !val.ValidateUsername(obj.Username, dataOperation); //Returns if it is present in the data already
+                        flag = !val.ValidateUsername(obj.Username, dataOperation); //Returns true if it is present in the data already
                     }
 
                     Console.Write("\nEnter First name: ");
@@ -115,7 +118,7 @@ namespace LoginAndRegister
                         flag = val.ValidatePassword(obj.Password, obj.ConfirmPassword); //returns true if passwords match
                     }
 
-                    string decision = operation.CreateUser(obj);
+                    string decision = businessOperation.CreateUser(obj);
                     if (decision == "success")
                     {
                         redirect = 1;
@@ -142,7 +145,7 @@ namespace LoginAndRegister
 
                     flag = val.ValidatePassword(obj.Password, obj.ConfirmPassword);
 
-                    while (flag) //if the given
+                    while (flag == false) //if the given
                     {
                         Console.Write("\nPassword and Confirm Password should match !" +
                             "\nEnter Again: ");
@@ -155,20 +158,19 @@ namespace LoginAndRegister
                         flag = val.ValidatePassword(obj.Password, obj.ConfirmPassword); //returns true if passwords match
                     }
 
-                    string decision = operation.ForgotPassword(obj);
+                    string decision = businessOperation.ForgotPassword(obj);
 
                     if (decision == "success")
                     {
-                        Console.WriteLine("\nUser created successfully, redirecting to Login page.\n");
+                        Console.WriteLine("\nPassword Updated successfully, redirecting to Login page.\n");
                         redirect = 1;
                     }
                     else if (decision == "fail")
                     {
-                        Console.WriteLine("\nUser doesnot exist, create new user: ");
-                        redirect = 2;
+                        Console.WriteLine("\nFailed to update password, Enter details correctly");
+                        redirect = 3;
                     }
                 }
-
             }
         }
     }

@@ -11,14 +11,14 @@ namespace DAL
     public class DataAccess
     {
         //Using List of strings to store in-memory
-        public static List<List<string>> userData = new List<List<string>>();
-        public static List<String> listData = new List<String>();
+        protected static List<List<string>> userData = new List<List<string>>();
+        protected static List<String> listData = new List<String>();
 
         /// <summary>
         /// Creates new User
         /// </summary>
         /// <param name="obj"></param>
-        public void CreateNewUser(BusinessObj obj)
+        public bool CreateNewUser(BusinessObj obj)
         { 
             listData.Clear();
             listData.Add(obj.Username);
@@ -28,6 +28,7 @@ namespace DAL
             listData.Add(obj.Email);
             listData.Add(obj.Mobile);
             userData.Add(listData);
+            return true;
         }
 
         /// <summary>
@@ -67,13 +68,12 @@ namespace DAL
         /// <param name="password"></param>
         /// <param name="username"></param>
         /// <returns></returns>
-        public bool UpdatePassword(string password, string username)
+        public bool UpdatePassword(string username, string password)
         {
             for(int i=0; i<userData.Count;i++)
             {
-                if (userData[i][0] == username)
+                if (userData[i][0] == username && userData[i][1] == password)
                 {
-                    userData[i][1] = password;
                     return true;
                 }
             }

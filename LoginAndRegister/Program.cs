@@ -17,7 +17,7 @@ namespace LoginAndRegister
 		{
 			//Initialising new objects of Business objects and Business Logic classes
 			BusinessObj obj = new BusinessObj();
-			BusinessLogic operation = new BusinessLogic();
+			BusinessLogic businessOperation = new BusinessLogic();
 			DataAccess dataOperation = new DataAccess();
 			Menu call = new Menu();
 
@@ -31,7 +31,7 @@ namespace LoginAndRegister
                 + "\n* 0. To exit");
             redirect = Convert.ToInt32(Console.ReadLine());
 
-			call.MenuOperation(redirect, obj, operation, dataOperation);
+			call.MenuOperation(redirect, obj, businessOperation, dataOperation);
 		}
 	}
 }
