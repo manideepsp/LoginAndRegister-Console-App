@@ -19,7 +19,6 @@ namespace DAL
             listData.Add(obj.Email);
             listData.Add(obj.Mobile);
             objectsData.Add(listData);
-            Console.WriteLine("Account created successfully");
         }
         public bool CheckIfPresent(string username)
         {
@@ -39,15 +38,17 @@ namespace DAL
             }
             return false;
         }
-        public void UpdatePassword(string password, string username)
+        public bool UpdatePassword(string password, string username)
         {
             for(int i=0; i<objectsData.Count;i++)
             {
                 if (objectsData[i][0] == username)
                 {
                     objectsData[i][1] = password;
+                    return true;
                 }
             }
+            return false;
         }
     }
 }

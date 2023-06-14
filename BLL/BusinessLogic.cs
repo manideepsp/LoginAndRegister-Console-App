@@ -1,40 +1,35 @@
 ﻿using BusinessObjects;
 using DAL;
 using System;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BLL
 {
     public class BusinessLogic
     {
-        //public BusinessLogic(BusinessObj obj)
-        //{
-        //    string username = obj.Username;
-        //    string password = obj.Password;
-        //    string confirmPassword = obj.ConfirmPassword;
-        //    string firstName = obj.FirstName;
-        //    string lastName = obj.LastName;
-        //    string email = obj.Email;
-        //    string mobile = obj.Mobile;
-        //}
-
-        DataAccess dataOperation = new DataAccess();
-        BusinessLogic operation = new BusinessLogic();
+        //DataAccess dataOperation = new DataAccess();
+        //BusinessLogic operation = new BusinessLogic();
+        private DataAccess dataOperation;
+        public BusinessLogic()
+        {
+            dataOperation = new DataAccess();
+        }
 
         public string Login(BusinessObj obj)
         {
             bool flag = dataOperation.CheckIfPresent(obj.Username, obj.Password);
             if(flag==true)
             {
-                Console.WriteLine($"Welcome {obj.Username} !/npress 1 to logout");
+                Console.WriteLine($"Welcome {obj.Username} !\npress 1 to logout");
                 if (Convert.ToInt32(Console.ReadLine()) == 1)
                 {
-                    return operation.Logout(obj);
+                    return Logout(obj);
                 }
                 return "fail";
             }
             else
             {
-                Console.WriteLine("The entered username or password is wrong, try again./n");
+                Console.WriteLine("The entered username or password is wrong, try again.\n");
                 obj = new BusinessObj();
                 return "fail";
             }
@@ -48,20 +43,23 @@ namespace BLL
         }
         public string ForgotPassword(BusinessObj obj)
         {
-            if(obj.Password == obj.ConfirmPassword)
+            bool decision = false;
+            if (obj.Password == obj.ConfirmPassword)
             {
-                dataOperation.UpdatePassword(obj.Password, obj.Username);
-                return "success";
+                decision = dataOperation.UpdatePassword(obj.Password, obj.Username);
             }
-            else
+            if(decision == false)
             {
                 obj = new BusinessObj();
                 return "fail";
             }
+            else
+            {
+                return "success";
+            }
         }
         public string CreateUser(BusinessObj obj)
         {
-            //BusinessLogic operation = new BusinessLogic();
             bool flag = dataOperation.CheckIfPresent(obj.Username);
             if(flag == true)
             {
@@ -81,16 +79,5 @@ namespace BLL
                 return "success";
             }
         }
-
-
-        //public void menu(BusinessObj obj)
-        //{
-        //    Console.WriteLine("/nEnter: " +
-        //        "/n* To Login enter 1"+
-        //        "/* To Register As new user enter 2"+
-        //        "/n* If you forgot you password enter 3"+
-        //        "* To exit enter 0\"");
-        //    switch (inp)
-        //}
     }
 }
