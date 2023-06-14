@@ -36,10 +36,11 @@ namespace LoginAndRegister
 					Console.WriteLine("***** Closing app *****");
 					break;
 				}
+
 				else if (redirect == 1) //Login page
 				{
 					Console.Write("\nWelcome to Login Page:" +
-						"\n\nEnter Username: ");
+								"\n\nEnter Username: ");
 					obj.Username = Console.ReadLine();
 
 					Console.Write("\nEnter Password: ");
@@ -48,13 +49,14 @@ namespace LoginAndRegister
 					string decision = operation.Login(obj);
 					if(decision == "changePassword")
 					{
-						Console.WriteLine("\nRedirecting you to Forgot password page.\n");
+						Console.WriteLine("\nRedirecting you to Forgot password / Change Password page.\n");
 						redirect = 3;
 					}
 					else
 					{
-						Console.WriteLine("\nPress 1 to create new user"
-							+ "press any other key to try again");
+						Console.WriteLine("\n Press 1 to create new user"
+											+ "press any other key to try again");
+
 						ConsoleKeyInfo cki = Console.ReadKey();
 						if(cki.Key == ConsoleKey.D1)
 						{
@@ -66,10 +68,10 @@ namespace LoginAndRegister
 						}
                     }
 				}
-				else if (redirect == 2)
+				else if (redirect == 2) //Create new user
 				{
 					Console.Write("Welcome to New User, enter your details to create new account:" +
-						"\n\nEnter Username: ");
+							"\n\nEnter Username: ");
 					obj.Username = Console.ReadLine();
 
 					Console.Write("\nEnter First name: ");
@@ -101,9 +103,9 @@ namespace LoginAndRegister
 						redirect = 1;
 					}
 				}
-				else if (redirect == 3)
+				else if (redirect == 3) //Forgot Password also for change password
 				{
-					Console.Write("\nWelcome to forgot password page:"
+					Console.Write("\nWelcome to forgot password / Change password page:"
 						+ "\n\nEnter username: ");
 					obj.Username = Console.ReadLine();
 

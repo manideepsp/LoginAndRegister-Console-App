@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BusinessObjects
 {
+    /// <summary>
+    /// Seperate class Library defined to hold Business Objects referenced to all three layers
+    /// </summary>
     public class BusinessObj
     {
         private string _username;
