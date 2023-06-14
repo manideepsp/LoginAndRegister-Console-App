@@ -1,7 +1,6 @@
 ﻿using BusinessObjects;
 using DAL;
 using System;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace BLL
 {
@@ -18,28 +17,27 @@ namespace BLL
         public string Login(BusinessObj obj)
         {
             bool flag = dataOperation.CheckIfPresent(obj.Username, obj.Password);
-            if(flag==true)
+            if (flag == true)
             {
-                Console.WriteLine($"Welcome {obj.Username} !\npress 1 to logout");
-                if (Convert.ToInt32(Console.ReadLine()) == 1)
-                {
-                    return Logout(obj);
-                }
-                return "fail";
-            }
-            else
-            {
-                Console.WriteLine("The entered username or password is wrong, try again.\n");
-                obj = new BusinessObj();
-                return "fail";
-            }
+                Console.WriteLine($"Welcome {obj.Username} !"+
+                    "\n\n press c to change your password." +
+                    "\n\n press any other key to logout\n");
 
+                ConsoleKeyInfo cki = Console.ReadKey();
+                if (cki.Key == ConsoleKey.C)
+                {
+                    return "changePassword";
+                }
+            }
+            obj = new BusinessObj();
+            return "fail";
         }
+
         public string Logout(BusinessObj obj)
         {
             Console.WriteLine("You have successfully logged out !");
             obj = new BusinessObj();
-            return "success";
+            return "logout";
         }
         public string ForgotPassword(BusinessObj obj)
         {
@@ -48,7 +46,7 @@ namespace BLL
             {
                 decision = dataOperation.UpdatePassword(obj.Password, obj.Username);
             }
-            if(decision == false)
+            if (decision == false)
             {
                 obj = new BusinessObj();
                 return "fail";
@@ -61,16 +59,10 @@ namespace BLL
         public string CreateUser(BusinessObj obj)
         {
             bool flag = dataOperation.CheckIfPresent(obj.Username);
-            if(flag == true)
+            if (flag == true)
             {
-                Console.WriteLine("User Already Exist !"+
-                    "/nPress 1 to Login : ");
-                int decision = Convert.ToInt32(Console.ReadLine());
-                if(decision == 1 )
-                {
-                    obj = new BusinessObj();
-                    return "success";
-                }
+                Console.WriteLine("User Already Exist !");
+                obj = new BusinessObj();
                 return "fail";
             }
             else

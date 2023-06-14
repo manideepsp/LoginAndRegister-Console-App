@@ -46,14 +46,25 @@ namespace LoginAndRegister
 					obj.Password = Console.ReadLine();
 
 					string decision = operation.Login(obj);
-					if(decision == "success")
+					if(decision == "changePassword")
 					{
-						redirect = 1;
+						Console.WriteLine("\nRedirecting you to Forgot password page.\n");
+						redirect = 3;
 					}
 					else
 					{
-						redirect = 2;
-					}
+						Console.WriteLine("\nPress 1 to create new user"
+							+ "press any other key to try again");
+						ConsoleKeyInfo cki = Console.ReadKey();
+						if(cki.Key == ConsoleKey.D1)
+						{
+							redirect = 2;
+						}
+						else
+						{
+							redirect = 1;
+						}
+                    }
 				}
 				else if (redirect == 2)
 				{
@@ -86,7 +97,8 @@ namespace LoginAndRegister
 					}
 					else
 					{
-						redirect = 0;
+						Console.WriteLine("\n * User already exist, redirecting to login page...");
+						redirect = 1;
 					}
 				}
 				else if (redirect == 3)
